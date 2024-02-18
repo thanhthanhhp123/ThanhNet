@@ -89,7 +89,7 @@ from skimage import measure
 def compute_pro(masks, amaps, num_th=200):
 
     df = pd.DataFrame([], columns=["pro", "fpr", "threshold"])
-    binary_amaps = np.zeros_like(amaps, dtype=np.bool)
+    binary_amaps = np.zeros_like(amaps, dtype=np.bool_)
 
     min_th = amaps.min()
     max_th = amaps.max()

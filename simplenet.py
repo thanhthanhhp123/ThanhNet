@@ -516,6 +516,7 @@ class SimpleNet(torch.nn.Module):
                     if self.pre_proj > 0:
                         self.proj_opt.step()
                     if self.train_backbone:
+                        LOGGER.info(f"Training backbone...")
                         self.backbone_opt.step()
                     self.dsc_opt.step()
 
