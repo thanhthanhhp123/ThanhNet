@@ -46,7 +46,6 @@ class Discriminator(torch.nn.Module):
     def forward(self,x):
         x = self.body(x)
         x = self.tail(x)
-        print("Discriminator: ", x.shape)
         return x
 
 
@@ -78,7 +77,6 @@ class Projection(torch.nn.Module):
         
         # x = .1 * self.layers(x) + x
         x = self.layers(x)
-        print("Feature Adaptor: ", x.shape)
         return x
 
 

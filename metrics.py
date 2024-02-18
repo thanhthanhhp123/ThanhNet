@@ -56,9 +56,9 @@ def compute_pixelwise_retrieval_metrics(anomaly_segmentations, ground_truth_mask
     fpr, tpr, thresholds = metrics.roc_curve(
         flat_ground_truth_masks.astype(int), flat_anomaly_segmentations
     )
-    # auroc = metrics.roc_auc_score(
-    #     flat_ground_truth_masks.astype(int), flat_anomaly_segmentations
-    # )
+    auroc = metrics.roc_auc_score(
+        flat_ground_truth_masks.astype(int), flat_anomaly_segmentations
+    )
 
     precision, recall, thresholds = metrics.precision_recall_curve(
         flat_ground_truth_masks.astype(int), flat_anomaly_segmentations
@@ -76,7 +76,7 @@ def compute_pixelwise_retrieval_metrics(anomaly_segmentations, ground_truth_mask
     fnr_optim = np.mean(predictions < flat_ground_truth_masks)
 
     return {
-        # "auroc": auroc,
+        "auroc": auroc,
         "fpr": fpr,
         "tpr": tpr,
         "optimal_threshold": optimal_threshold,
