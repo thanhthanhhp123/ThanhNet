@@ -2,7 +2,7 @@ datapath=/content/drive/MyDrive/Dataset
 datasets=('CMI')
 dataset_flags=($(for dataset in "${datasets[@]}"; do echo '-d '"${dataset}"; done))
 
-python /content/TNet/main.py \
+python /content/ThanhNet/main.py \
 --gpu 0 \
 --seed 0 \
 --log_group simplenet_mci \

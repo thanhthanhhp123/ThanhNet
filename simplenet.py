@@ -167,6 +167,7 @@ class SimpleNet(torch.nn.Module):
         self.cos_lr = cos_lr
         self.train_backbone = train_backbone
         if self.train_backbone:
+            print('Training backbone...')
             self.backbone_opt = torch.optim.AdamW(self.forward_modules["feature_aggregator"].backbone.parameters(), lr)
         # AED
         self.aed_meta_epochs = aed_meta_epochs

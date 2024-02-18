@@ -170,7 +170,7 @@ class NetworkFeatureAggregator(torch.nn.Module):
                 )
         self.to(self.device)
 
-    def forward(self, images, eval=True):
+    def forward(self, images, eval=False):
         self.outputs.clear()
         if self.train_backbone and not eval:
             self.backbone(images)
