@@ -49,9 +49,9 @@ def plot_segmentation_images(
         desc="Generating Segmentation Images...",
         leave=False,
     ):
-        image = np.load(image_path).astype(np.uint8)
-        # image = Image.fromarray(image)
-        # image = image_transform(image)
+        image = np.load(image_path)
+        image = Image.fromarray(image)
+        image = image_transform(image)
         if not isinstance(image, np.ndarray):
             image = image.numpy()
 
@@ -70,9 +70,9 @@ def plot_segmentation_images(
         savename = os.path.join(savefolder, savename)
         # np.save(savename + "_segmentation.npy", segmentation)
         f, axes = plt.subplots(1, 2 + int(masks_provided))
-        axes[0].imshow(image)
+        axes[0].imshow(image.transpose(1, 2, 0), vmin = -2, vmax = 2, cmap = 'rainbow')
         axes[1].imshow(mask.transpose(1, 2, 0))
-        axes[2].imshow(segmentation, cmap = 'gray')
+        axes[2].imshow(segmentation, cmap = 'hot')
         f.set_size_inches(3 * (2 + int(masks_provided)), 3)
         f.tight_layout()
         f.savefig(savename + ".png")
