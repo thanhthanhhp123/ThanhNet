@@ -219,8 +219,8 @@ class SimpleNet(torch.nn.Module):
             return features
         return self._embed(data)
 
-    def _embed(self, images, detach=True, provide_patch_shapes=False, evaluation=False):
-        """Returns feature embeddings for images."""
+    def _embed(self, images, detach=True, provide_patch_shapes=False, evaluation=True):
+        """Returns feature embeddings for images."""    
 
         B = len(images)
         if not evaluation and self.train_backbone:

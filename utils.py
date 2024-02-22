@@ -10,6 +10,7 @@ import torch
 import tqdm
 from PIL import Image
 import torchvision
+import seaborn as sns
 
 LOGGER = logging.getLogger(__name__)
 
@@ -70,9 +71,16 @@ def plot_segmentation_images(
         savename = os.path.join(savefolder, savename)
         # np.save(savename + "_segmentation.npy", segmentation)
         f, axes = plt.subplots(1, 2 + int(masks_provided))
-        axes[0].imshow(image.transpose(1, 2, 0), vmin = -2, vmax = 2, cmap = 'rainbow')
-        axes[1].imshow(mask.transpose(1, 2, 0))
-        axes[2].imshow(segmentation, cmap = 'hot')
+        sns.heatmap(np.squeeze(image.transpose(1, 2, 0)), ax=axes[0], cbar=False, xticklabels=False, yticklabels=False,
+                    vmin = -2, vmax = 2, cmap = 'rainbow')
+        axes[0].set_title("Image")
+        sns.heatmap(np.squeeze(mask.transpose(1, 2, 0)), ax=axes[1], cbar=False, xticklabels=False, yticklabels=False)
+        axes[1].set_title("Mask")
+        sns.heatmap(segmentation, ax=axes[2], cbar=False, xticklabels=False, yticklabels=False, cmap = 'hot')
+        axes[2].set_title("Segmentation")
+        # axes[0].imshow(image.transpose(1, 2, 0), vmin = -2, vmax = 2, cmap = 'rainbow')
+        # axes[1].imshow(mask.transpose(1, 2, 0))
+        # axes[2].imshow(segmentation, cmap = 'hot')
         f.set_size_inches(3 * (2 + int(masks_provided)), 3)
         f.tight_layout()
         f.savefig(savename + ".png")

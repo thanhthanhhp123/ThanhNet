@@ -4,7 +4,7 @@ from torchsummary import summary
 import torchvision
 from torch import Tensor
 from typing import Type
-from torchvision.models import wide_resnet50_2
+from torchvision.models import wide_resnet50_2, resnet50
 class BasicBlock(nn.Module):
     def __init__(self,
                  in_channels: int,
@@ -118,5 +118,5 @@ class ResNet18(nn.Module):
         return x
 
 if __name__ == '__main__':
-    model = ResNet18()
-    summary(model, (1, 80, 57))
+    model = wide_resnet50_2()
+    summary(model, (3, 224, 224))
