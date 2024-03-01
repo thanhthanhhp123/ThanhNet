@@ -138,7 +138,7 @@ def run(
 @click.option("--dsc_margin", type=float, default=0.8)
 @click.option("--dsc_lr", type=float, default=0.0002)
 @click.option("--auto_noise", type=float, default=0)
-@click.option("--train_backbone", is_flag=True)
+@click.option("--train_backbone", is_flag=False)
 @click.option("--cos_lr", is_flag=True)
 @click.option("--pre_proj", type=int, default=0)
 @click.option("--proj_layer_type", type=int, default=0)
@@ -184,7 +184,7 @@ def net(
         #     backbone_name, backbone_seed = backbone_name.split(".seed-")[0], int(
         #         backbone_name.split("-")[-1]
         #     )
-        backbone = backbones.GSWideResNet50()
+        backbone = backbones.grayscale_wideresnet50_2()
         # backbone.name, backbone.seed = backbone_name, backbone_seed
 
         simplenet_inst = simplenet.SimpleNet(device)

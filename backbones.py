@@ -117,12 +117,19 @@ class ResNet18(nn.Module):
 
         return x
 
-class GSWideResNet(torch.nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.model = models.wide_resnet50_2(weights = "IMAGENET1K_V2", progress = True)
-        self.conv1 = torch.nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
-    
-    def forward(self, x):
-        self.model.conv1 = self.conv1
-        return self.model(x)
+def grayscale_wideresnet50_2():
+    model = wide_resnet50_2(progress=True)
+    num_channels = 1
+    num_filters = model.conv1.out_channels
+    conv1 = nn.Conv2d(
+        num_channels,
+        num_filters,
+        kernel_size=7,
+        stride=2,
+        padding=3,
+        bias=False
+    )
+    original_weights = model.conv1.weight.data.mean(1, keepdim=True)
+    conv1.weight.data = original_weights.repeat(1, num_channels, 1, 1)
+    model.conv1 = conv1
+    return model
