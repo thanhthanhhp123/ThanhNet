@@ -158,7 +158,7 @@ class NetworkFeatureAggregator(torch.nn.Module):
                 else:
                     network_layer = network_layer.__dict__["_modules"][extract_idx]
             else:
-                network_layer = backbone.__dict__["_modules"]['resnet'].extract_layer
+                network_layer = backbone.__dict__["_modules"][extract_layer]
 
             if isinstance(network_layer, torch.nn.Sequential):
                 self.backbone.hook_handles.append(
