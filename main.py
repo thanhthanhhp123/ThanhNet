@@ -184,7 +184,7 @@ def net(
         #     backbone_name, backbone_seed = backbone_name.split(".seed-")[0], int(
         #         backbone_name.split("-")[-1]
         #     )
-        backbone = backbones.ResNet18()
+        backbone = backbones.GSWideResNet50()
         # backbone.name, backbone.seed = backbone_name, backbone_seed
 
         simplenet_inst = simplenet.SimpleNet(device)
