@@ -13,7 +13,7 @@ import tqdm
 from backbones import *
 from simplenet import *
 
-backbone = GSWideResNet()
+backbone = grayscale_wideresnet50_2()
 
 patch_maker = PatchMaker(
     3, stride = 1
@@ -30,4 +30,4 @@ feature_dim = feature_agg.feature_dimensions(
     (1, 65, 65)
 )
 
-print(feature_dim)
+print(feature_agg)

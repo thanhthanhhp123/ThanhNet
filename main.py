@@ -13,6 +13,7 @@ import metrics
 import simplenet 
 import utils
 import warnings
+from ae import *
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.filterwarnings("ignore")
 
@@ -184,7 +185,10 @@ def net(
         #     backbone_name, backbone_seed = backbone_name.split(".seed-")[0], int(
         #         backbone_name.split("-")[-1]
         #     )
-        backbone = backbones.grayscale_wideresnet50_2()
+        backbone = AutoEncoder()
+        backbone.load_state_dict(torch.load("models/ae.pth", map_location=device))
+        backbone = backbone.to(device)
+
         # backbone.name, backbone.seed = backbone_name, backbone_seed
 
         simplenet_inst = simplenet.SimpleNet(device)
@@ -225,8 +229,8 @@ def net(
 @click.option("--train_val_split", type=float, default=1, show_default=True)
 @click.option("--batch_size", default=2, type=int, show_default=True)
 @click.option("--num_workers", default=2, type=int, show_default=True)
-@click.option("--resize", default=60, type=int, show_default=True)
-@click.option("--imagesize", default=65, type=int, show_default=True)
+@click.option("--resize", default=64, type=int, show_default=True)
+@click.option("--imagesize", default=64, type=int, show_default=True)
 @click.option("--rotate_degrees", default=0, type=int)
 @click.option("--translate", default=0, type=float)
 @click.option("--scale", default=0.0, type=float)

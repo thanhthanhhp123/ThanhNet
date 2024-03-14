@@ -11,7 +11,6 @@ python /content/ThanhNet/main.py \
 --run_name run \
 net \
 -le layer1 \
--le layer2 \
 --pretrain_embed_dimension 1536 \
 --target_embed_dimension 1536 \
 --patchsize 3 \
