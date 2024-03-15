@@ -11,11 +11,11 @@ python /content/ThanhNet/main.py \
 --run_name run \
 net \
 -le layer1 \
---pretrain_embed_dimension 1536 \
---target_embed_dimension 1536 \
+--pretrain_embed_dimension 1024 \
+--target_embed_dimension 1024 \
 --patchsize 3 \
 --meta_epochs 60 \
---embedding_size 60 \
+--embedding_size 64 \
 --gan_epochs 5 \
 --noise_std 0.015 \
 --dsc_hidden 1024 \

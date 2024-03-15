@@ -186,7 +186,8 @@ def net(
         #         backbone_name.split("-")[-1]
         #     )
         backbone = AutoEncoder()
-        backbone.load_state_dict(torch.load("models/ae.pth", map_location=device))
+        backbone.load_state_dict(torch.load("ae.pth", map_location=device))
+        print('Successfully loaded AE')
         backbone = backbone.to(device)
 
         # backbone.name, backbone.seed = backbone_name, backbone_seed

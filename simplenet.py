@@ -273,7 +273,7 @@ class SimpleNet(torch.nn.Module):
         
         # As different feature backbones & patching provide differently
         # sized features, these are brought into the correct form here.
-        features = self.forward_modules["preprocessing"](features) # pooling each feature to same channel and stack together
+        # features = self.forward_modules["preprocessing"](features) # pooling each feature to same channel and stack together
         features = self.forward_modules["preadapt_aggregator"](features) # further pooling        
 
 
@@ -627,9 +627,9 @@ class SimpleNet(torch.nn.Module):
             "backbone.name": self.backbone.name,
             "layers_to_extract_from": self.layers_to_extract_from,
             "input_shape": self.input_shape,
-            "pretrain_embed_dimension": self.forward_modules[
-                "preprocessing"
-            ].output_dim,
+            # "pretrain_embed_dimension": self.forward_modules[
+            #     "preprocessing"
+            # ].output_dim,
             "target_embed_dimension": self.forward_modules[
                 "preadapt_aggregator"
             ].target_dim,
