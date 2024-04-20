@@ -273,7 +273,7 @@ class SimpleNet(torch.nn.Module):
         
         # As different feature backbones & patching provide differently
         # sized features, these are brought into the correct form here.
-        # features = self.forward_modules["preprocessing"](features) # pooling each feature to same channel and stack together
+        features = self.forward_modules["preprocessing"](features) # pooling each feature to same channel and stack together
         features = self.forward_modules["preadapt_aggregator"](features) # further pooling        
 
 
