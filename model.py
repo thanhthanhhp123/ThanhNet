@@ -2,12 +2,14 @@ import torch.nn as nn
 import torch
 import torch.nn.functional as F
 import os
+import tqdm
 
 import utils
 import net
 import students
 import common
 from ddpm import DDPM
+import metrics
 
 class ThanhNet(nn.Module):
     def __init__(self, device = 'cuda' if torch.cuda.is_available() else 'cpu',
@@ -50,6 +52,7 @@ class ThanhNet(nn.Module):
         self.ddpm_opt.zero_grad()
         loss.backward()
         self.ddpm_opt.step()
+        return loss.item()
 
     def _inference(self, images):
         self.pdn.eval()
@@ -58,11 +61,32 @@ class ThanhNet(nn.Module):
             images = images.to(self.device)
             features_map = self.pdn(images)
             reconstructed_feature_map = self.ddpm(features_map)
-            
+        pass
+
 
     
     def train(self, training_loader):
+        tqdm_obj = tqdm.tqdm(range(1, 1000))
+        for iter, obj in zip(tqdm_obj, training_loader):
+            obj['image'] = obj['image'].to(self.device)
+            
+            features_map = self.pdn(obj['image'])
+            loss = self._train_ddpm(features_map)
+
+            tqdm_obj.set_postfix({'loss': loss})
+
+            torch.save(
+                {'epoch': iter,
+                'model': self.ddpm.state_dict(),
+                'optimizer': self.ddpm_opt.state_dict(),
+                'loss': loss},
+                os.path.join(self.model_dir, 'ddpm.pth')
+            )
+
+    def forward(self, images):
+        self._inference(images)
         pass
+        
 
     
 
