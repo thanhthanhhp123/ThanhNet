@@ -69,21 +69,22 @@ def pretrain():
     # optimizer.load_state_dict(state_dict['optimizer'])
     # start_epoch = state_dict['epoch']
 
-    tqdm_obj = tqdm.tqdm(range(1, 1000))
-    for iter, obj in zip(tqdm_obj, train_loader):
-        obj['image'] = obj['image'].to(device)
-        obj['mask'] = obj['mask'].to(device)
+    tqdm_obj = tqdm.tqdm(range(0, 100))
+    for iter in tqdm_obj:
+        for obj in train_loader:
+            obj['image'] = obj['image'].to(device)
+            obj['mask'] = obj['mask'].to(device)
 
-        target = extractor.embed(obj['image'])[0]
-        target = (target - channel_mean) / channel_std
-        predict = pdn(obj['image'])
-        loss = F.mse_loss(predict, target)
-        
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+            target = extractor.embed(obj['image'])[0]
+            target = (target - channel_mean) / channel_std
+            predict = pdn(obj['image'])
+            loss = F.mse_loss(predict, target)
+            
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
 
-        tqdm_obj.set_postfix({'loss': loss.item()})
+            tqdm_obj.set_postfix({'loss': loss.item()})
 
         torch.save(
             {'epoch': iter,
