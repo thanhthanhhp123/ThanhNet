@@ -109,6 +109,8 @@ class DDPM(nn.Module):
         a = a.reshape((-1, 1, 1, 1))
         b = b.reshape((-1, 1, 1, 1))
 
+        x = x.to('cpu').detach().numpy()
+
         img_a = x * (1 - a) + noise * a
         img_b = x * (1 - b) + noise * b
 
