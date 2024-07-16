@@ -109,7 +109,7 @@ class MVTecDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         classname, anomaly, image_path, mask_path = self.data_to_iterate[idx]
-        image = PIL.Image.open(image_path).convert("RGB")
+        image = PIL.Image.open(image_path)
         image = self.transform_img(image)
 
         if self.split == DatasetSplit.TEST and mask_path is not None:
