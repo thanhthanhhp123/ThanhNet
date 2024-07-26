@@ -9,7 +9,7 @@ import utils
 import net
 import students
 import common
-from ddpm import DDPM
+from ddpm2 import UNet, loss
 import metrics
 
 class ThanhNet(nn.Module):
@@ -17,7 +17,8 @@ class ThanhNet(nn.Module):
                  train_backbone = False, epochs = 50):
         super(ThanhNet, self).__init__()
         self.pdn = students.get_pdn_small(padding = True)
-        self.ddpm = DDPM()
+        self.ddpm = UNet.UNetModel(28, 64, dropout=0.2,
+                        n_heads = 4, attention_resolutions='28,14,7', in_channels=1536)
         self.pdn.load_state_dict(torch.load('d_models/pdn.pth')['model'])
         self.pdn.to(device)
         self.ddpm.to(device)
@@ -40,19 +41,25 @@ class ThanhNet(nn.Module):
     def _train_ddpm(self, x):
         # self.pdn.train()
         self.ddpm.train()
-        x_ts = self.ddpm.generate_ts(len(x))
-        x_a, x_b = self.ddpm.forward_noise(x, x_ts)
-
-        x_ts = torch.from_numpy(x_ts).view(-1, 1).float().to(self.device)
-        x_a = torch.Tensor(x_a).to(self.device)
-        x_b = torch.Tensor(x_b).to(self.device)
-        
-        y_p = self.ddpm(x_a, x_ts)
-        loss = torch.mean(torch.abs(y_p - x_b))
         self.ddpm_opt.zero_grad()
+        t = torch.randint(0, 200, (3,), device=self.device)
+        loss = loss.get_loss(self.ddpm, x, t)
         loss.backward()
         self.ddpm_opt.step()
-        self.ddpm_scheduler.step()
+
+        # x_ts = self.ddpm.generate_ts(len(x))
+        # x_a, x_b = self.ddpm.forward_noise(x, x_ts)
+
+        # x_ts = torch.from_numpy(x_ts).view(-1, 1).float().to(self.device)
+        # x_a = torch.Tensor(x_a).to(self.device)
+        # x_b = torch.Tensor(x_b).to(self.device)
+        
+        # y_p = self.ddpm(x_a, x_ts)
+        # loss = torch.mean(torch.abs(y_p - x_b))
+        # self.ddpm_opt.zero_grad()
+        # loss.backward()
+        # self.ddpm_opt.step()
+        # self.ddpm_scheduler.step()
         return loss.item()
 
     def _inference(self, images):
